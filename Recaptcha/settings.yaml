@@ -1,0 +1,9 @@
+fields: 
+  site_key:
+    type: text
+    width: 50
+  secret:
+    type: text
+    width: 50
+  error_message:
+    type: text
