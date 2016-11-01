@@ -14,7 +14,7 @@ After the initial setup, all you need to do is add the `{{ recaptcha }}` tag ins
 
 Firstly, copy the `Recaptcha` folder into `site/addons/`.
 
-Next, you'll have to add reCAPTCHA's API script to your site's `<head>` using `{{ recaptcha:head }}`.
+Next, you'll have to add reCAPTCHA's API script to your site's `<head>` using `{{ recaptcha:head }}`. You may also want to look into Statamic's [Yield](https://docs.statamic.com/tags/yield) & [Section](https://docs.statamic.com/tags/section) tags to only render the script when needed.
 
 Finally, create your `SITE_KEY` & `SECRET` from https://www.google.com/recaptcha/admin and add them to Recaptcha's settings (CP > Configure > Addons > Recaptcha).
 
