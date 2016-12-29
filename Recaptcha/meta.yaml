@@ -1,5 +1,5 @@
 name: Recaptcha
-version: 1.0
+version: 1.1
 description: Protect your Statamic forms using Google's reCAPTCHA service.
 url: -
 developer: Aryeh Raber
