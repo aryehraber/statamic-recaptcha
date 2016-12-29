@@ -19,7 +19,9 @@ class RecaptchaListener extends Listener
 
     public function beforeCreate(Submission $submission)
     {
-        if (! $response = request('g-recaptcha-response')) {
+        $response = request('g-recaptcha-response');
+        
+        if ($response === null) {
             return $submission;
         }
 
