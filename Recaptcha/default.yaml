@@ -1,3 +1,4 @@
 site_key:
 secret:
+invisible: false
 error_message: reCAPTCHA failed.

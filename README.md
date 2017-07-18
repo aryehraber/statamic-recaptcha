@@ -40,3 +40,5 @@ Alternatively, add them to the site's `.env` file using `RECAPTCHA_SITE_KEY` & `
 ```
 
 This will automatically render the reCAPTCHA element on the page (if a valid `SITE_KEY` was found). After the form is submitted, the Addon will temporarily halt the form from saving while Google verifies that the request checks out. If all is good, the form will save as normal, otherwise an error will be added to the `{{ errors }}` array (together with any other errors, if they exist) which you can handle the same way as you would normally.
+
+Invisible Recaptcha: button class="recaptcha-btn" 
