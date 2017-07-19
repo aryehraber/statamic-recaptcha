@@ -14,7 +14,10 @@ fields:
     display: reCAPTCHA API Keys
   site_key:
     type: text
-    width: 50
+    width: 33
   secret:
     type: text
-    width: 50
+    width: 33
+  invisible:
+    type: toggle
+    width: 33
