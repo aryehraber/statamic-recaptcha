@@ -17,8 +17,7 @@ class RecaptchaTags extends Tags
             return;
         }
 
-        $siteKey = $this->getSiteKey();
-        return '<div class="g-recaptcha" data-sitekey="'. $siteKey .'"></div>';
+        return '<div class="g-recaptcha" data-sitekey="'. $this->getSiteKey() .'"></div>';
     }
 
     /**
@@ -28,13 +27,10 @@ class RecaptchaTags extends Tags
      */
     public function head()
     {
-        if (!$this->get('invisible', false)) {
+        if (! $this->get('invisible', false)) {
             return '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
         } else {
-            $siteKey = $this->getSiteKey();
-
-            // invisible recaptcha loading code
-            return'
+            return '
                 <script>
                     function recaptchaInit() {
                         var buttons = Array.prototype.slice.call(document.querySelectorAll(".recaptcha-btn"), 0);
@@ -42,10 +38,10 @@ class RecaptchaTags extends Tags
                         buttons.forEach(function (button) {
                             var form = button.form;
 
-                            if (!("checkValidity" in form) || form.checkValidity()) {
+                            if (! ("checkValidity" in form) || form.checkValidity()) {
                                 grecaptcha.render(button, {
-                                    sitekey : "'.$siteKey.'",
-                                    callback : function () {
+                                    sitekey: "'. $this->getSiteKey() .'",
+                                    callback: function() {
                                         form.submit();
                                     }
                                 });
