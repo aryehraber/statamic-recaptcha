@@ -1,9 +1,20 @@
-fields: 
+fields:
+  form_section:
+    type: section
+    display: Form Settings
+  forms:
+    type: suggest
+    mode: form
+    instructions: Select the forms where reCAPTCHA will be used.
+  error_message:
+    type: text
+    instructions: The message that will be returned if validation fails.
+  keys_section:
+    type: section
+    display: reCAPTCHA API Keys
   site_key:
     type: text
     width: 50
   secret:
     type: text
     width: 50
-  error_message:
-    type: text

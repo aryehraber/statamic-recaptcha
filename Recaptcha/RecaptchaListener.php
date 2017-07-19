@@ -19,9 +19,7 @@ class RecaptchaListener extends Listener
 
     public function beforeCreate(Submission $submission)
     {
-        $response = request('g-recaptcha-response');
-        
-        if ($response === null) {
+        if (! in_array($submission->formset()->name(), $this->getConfig('forms', []))) {
             return $submission;
         }
 
@@ -29,7 +27,7 @@ class RecaptchaListener extends Listener
 
         $params = [
             'secret' => $this->getConfig('secret') ?: env('RECAPTCHA_SECRET', ''),
-            'response' => $response
+            'response' => request('g-recaptcha-response'),
         ];
 
         $response = $client->post('https://www.google.com/recaptcha/api/siteverify', ['query' => $params]);
@@ -43,7 +41,7 @@ class RecaptchaListener extends Listener
         if (! $data->get('success')) {
             return [
                 'submission' => $submission,
-                'errors' => [$this->getConfig('error_message', 'reCAPTCHA failed.')]
+                'errors' => [$this->getConfig('error_message') ?: 'reCAPTCHA failed.']
             ];
         }
 
