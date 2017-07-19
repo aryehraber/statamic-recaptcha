@@ -39,4 +39,9 @@ After the initial setup, all you need to do is add the `{{ recaptcha }}` tag ins
 
 This will automatically render the reCAPTCHA element on the page (if a valid `SITE_KEY` was found). After the form is submitted, the Addon will temporarily halt the form from saving while Google verifies that the request checks out. If all is good, the form will save as normal, otherwise an error will be added to the `{{ errors }}` array (together with any other errors, if they exist) which you can handle the same way as you would normally.
 
-Invisible Recaptcha: button class="recaptcha-btn" 
+## Invisible Recaptcha
+
+As of v2.0, Recaptcha also supports the [Invisible reCAPTCHA](https://developers.google.com/recaptcha/docs/invisible):
+
+1. Simply turn on the `Invisible` toggle in Recaptcha's settings.
+2. Ensure your form's submit button has the class `recaptcha-btn`.
