@@ -12,12 +12,13 @@ class RecaptchaTags extends Tags
      * @return string
      */
     public function index()
-    {   
+    {
+        $attr = '';
         if ($this->get('invisible', false)) {
-            return;
+            $attr .= 'data-size="invisible"';
         }
 
-        return '<div class="g-recaptcha" data-sitekey="'. $this->getSiteKey() .'"></div>';
+        return '<div class="g-recaptcha" data-sitekey="' . $this->getSiteKey() . '" ' . $attr . '></div>';
     }
 
     /**
@@ -27,29 +28,41 @@ class RecaptchaTags extends Tags
      */
     public function head()
     {
-        if (! $this->get('invisible', false)) {
+        if (!$this->get('invisible', false)) {
             return '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
         } else {
             return '
                 <script>
-                    function recaptchaInit() {
-                        var buttons = Array.prototype.slice.call(document.querySelectorAll(".recaptcha-btn"), 0);
+                    var recaptchaCallback = function (form) {
+                        return function () {
+                            form.submit();
+                        }
+                    };
+                
+                    document.addEventListener("DOMContentLoaded", function () {
+                        var captchas = Array.prototype.slice.call(document.querySelectorAll(".g-recaptcha[data-size=invisible]"), 0);
 
-                        buttons.forEach(function (button) {
-                            var form = button.form;
-
-                            if (! ("checkValidity" in form) || form.checkValidity()) {
-                                grecaptcha.render(button, {
-                                    sitekey: "'. $this->getSiteKey() .'",
-                                    callback: function() {
-                                        form.submit();
-                                    }
-                                });
+                        var formId = 0;
+                        captchas.forEach(function (captcha) {
+                            ++formId;
+                            var form = captcha.parentNode;
+                            while (form.tagName !== "FORM") {
+                                form = form.parentNode;
                             }
+                            
+                            // create custom callback
+                            window["recaptchaSubmit" + formId] = recaptchaCallback(form);
+                            captcha.setAttribute("data-callback", "recaptchaSubmit" + formId);
+                            
+                            form.addEventListener("submit", function (event) {
+                                event.preventDefault();
+                                grecaptcha.reset();
+                                grecaptcha.execute();
+                            });
                         });
-                    }
+                    });
                 </script>
-                <script src="https://www.google.com/recaptcha/api.js?onload=recaptchaInit&render=explicit" async defer></script>
+                <script src="https://www.google.com/recaptcha/api.js" async defer></script>
             ';
         }
     }
@@ -57,7 +70,8 @@ class RecaptchaTags extends Tags
     /**
      * @return string
      */
-    private function getSiteKey() {
+    private function getSiteKey()
+    {
         return $this->getConfig('site_key') ?: env('RECAPTCHA_SITE_KEY', '');
     }
 }
