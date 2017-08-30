@@ -44,4 +44,3 @@ This will automatically render the reCAPTCHA element on the page (if a valid `SI
 As of v2.0, Recaptcha also supports the [Invisible reCAPTCHA](https://developers.google.com/recaptcha/docs/invisible):
 
 1. Simply turn on the `Invisible` toggle in Recaptcha's settings.
-2. Ensure your form's submit button has the class `recaptcha-btn`.
