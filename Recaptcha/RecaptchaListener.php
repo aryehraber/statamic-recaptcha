@@ -26,12 +26,12 @@ class RecaptchaListener extends Listener
         $client = new Client();
 
         $params = [
-            'secret' => $this->getConfig('secret') ?: env('RECAPTCHA_SECRET', ''),
+            'secret' => $this->getSecret(),
             'response' => request('g-recaptcha-response'),
         ];
 
         $response = $client->post('https://www.google.com/recaptcha/api/siteverify', ['query' => $params]);
-        
+
         if ($response->getStatusCode() == 200) {
             $data = collect(json_decode($response->getBody(), true));
         } else {
@@ -46,5 +46,15 @@ class RecaptchaListener extends Listener
         }
 
         return $submission;
+    }
+
+    /**
+     * Get the current domain's secret
+     *
+     * @return string
+     */
+    private function getSecret()
+    {
+        return (new Recaptcha)->config('secret') ?: env('RECAPTCHA_SECRET', '');
     }
 }

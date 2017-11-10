@@ -13,10 +13,7 @@ class RecaptchaTags extends Tags
      */
     public function index()
     {
-        $attr = '';
-        if ($this->get('invisible', false)) {
-            $attr .= 'data-size="invisible"';
-        }
+        $attr = $this->get('invisible', false) ? 'data-size="invisible"' : '';
 
         return '<div class="g-recaptcha" data-sitekey="' . $this->getSiteKey() . '" ' . $attr . '></div>';
     }
@@ -28,7 +25,7 @@ class RecaptchaTags extends Tags
      */
     public function head()
     {
-        if (!$this->get('invisible', false)) {
+        if (! $this->get('invisible', false)) {
             return '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
         } else {
             return '
@@ -38,7 +35,7 @@ class RecaptchaTags extends Tags
                             form.submit();
                         }
                     };
-                
+
                     document.addEventListener("DOMContentLoaded", function () {
                         var captchas = Array.prototype.slice.call(document.querySelectorAll(".g-recaptcha[data-size=invisible]"), 0);
 
@@ -49,11 +46,11 @@ class RecaptchaTags extends Tags
                             while (form.tagName !== "FORM") {
                                 form = form.parentNode;
                             }
-                            
+
                             // create custom callback
                             window["recaptchaSubmit" + formId] = recaptchaCallback(form);
                             captcha.setAttribute("data-callback", "recaptchaSubmit" + formId);
-                            
+
                             form.addEventListener("submit", function (event) {
                                 event.preventDefault();
                                 grecaptcha.reset();
@@ -68,10 +65,12 @@ class RecaptchaTags extends Tags
     }
 
     /**
+     * Get the current domain's site key
+     *
      * @return string
      */
     private function getSiteKey()
     {
-        return $this->getConfig('site_key') ?: env('RECAPTCHA_SITE_KEY', '');
+        return (new Recaptcha)->config('site_key') ?: env('RECAPTCHA_SITE_KEY', '');
     }
 }

@@ -21,3 +21,25 @@ fields:
   invisible:
     type: toggle
     width: 33
+  multi_keys_section:
+    type: section
+    display: reCAPTCHA API Keys (Multiple)
+  multi_keys:
+    type: toggle
+    display: Use Multiple Keys?
+  site_keys:
+    type: grid
+    fields:
+      domains:
+        type: textarea
+        width: 33
+      site_key:
+        type: text
+        display: Site Key
+        width: 33
+      secret:
+        type: text
+        width: 33
+      invisible:
+        type: toggle
+        width: 33
