@@ -9,6 +9,19 @@ fields:
   error_message:
     type: text
     instructions: The message that will be returned if validation fails.
+  hide_badge:
+    display: Hide reCAPTCHA Badge
+    instructions: Replace badge with reCAPTCHA Disclaimer Message
+    type: toggle
+  disclaimer:
+    display: Disclaimer Message
+    instructions: The message shown when reCaptcha badge is hidden
+    type: markdown
+    show_when:
+      hide_badge: true
+    default: "This site is protected by reCAPTCHA and the Google
+    [Privacy Policy](https://policies.google.com/privacy) and
+    [Terms of Service](https://policies.google.com/terms) apply."
   keys_section:
     type: section
     display: reCAPTCHA API Keys
