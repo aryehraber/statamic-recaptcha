@@ -27,49 +27,11 @@ class RecaptchaTags extends Tags
     {
         if (! $this->get('invisible', false)) {
             return '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
-        } else {
-            $output = '';
-
-            if ($this->get('hide_badge', false)) {
-                $output = '<style>.grecaptcha-badge { visibility: collapse !important }</style>';
-            }
-
-            $output .= '
-                <script>
-                    var recaptchaCallback = function (form) {
-                        return function () {
-                            form.submit();
-                        }
-                    };
-
-                    document.addEventListener("DOMContentLoaded", function () {
-                        var captchas = Array.prototype.slice.call(document.querySelectorAll(".g-recaptcha[data-size=invisible]"), 0);
-
-                        var formId = 0;
-                        captchas.forEach(function (captcha) {
-                            ++formId;
-                            var form = captcha.parentNode;
-                            while (form.tagName !== "FORM") {
-                                form = form.parentNode;
-                            }
-
-                            // create custom callback
-                            window["recaptchaSubmit" + formId] = recaptchaCallback(form);
-                            captcha.setAttribute("data-callback", "recaptchaSubmit" + formId);
-
-                            form.addEventListener("submit", function (event) {
-                                event.preventDefault();
-                                grecaptcha.reset();
-                                grecaptcha.execute();
-                            });
-                        });
-                    });
-                </script>
-                <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-            ';
-
-            return $output;
         }
+
+        return $this->view('invisible', [
+            'hide_badge' => $this->get('hide_badge', false),
+        ])->render();
     }
 
     /**
