@@ -25,13 +25,13 @@ class RecaptchaTags extends Tags
      */
     public function head()
     {
-        if (! $this->get('invisible', false)) {
-            return '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
+        if ($this->get('invisible', false)) {
+            $data = ['hide_badge' => $this->get('hide_badge', false)];
+
+            return $this->view('invisible', $data)->render();
         }
 
-        return $this->view('invisible', [
-            'hide_badge' => $this->get('hide_badge', false),
-        ])->render();
+        return '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
     }
 
     /**
