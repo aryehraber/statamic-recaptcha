@@ -28,9 +28,13 @@ class RecaptchaTags extends Tags
         if (! $this->get('invisible', false)) {
             return '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
         } else {
-            $hide_badge = $this->get('hide_badge', false) ? '<style>.grecaptcha-badge { visibility: collapse !important }</style>"' : '';
-            
-            return $hide_badge . '
+            $output = '';
+
+            if ($this->get('hide_badge', false)) {
+                $output = '<style>.grecaptcha-badge { visibility: collapse !important }</style>';
+            }
+
+            $output .= '
                 <script>
                     var recaptchaCallback = function (form) {
                         return function () {
@@ -63,6 +67,8 @@ class RecaptchaTags extends Tags
                 </script>
                 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
             ';
+
+            return $output;
         }
     }
 
@@ -72,10 +78,10 @@ class RecaptchaTags extends Tags
      * @return string
      */
     public function disclaimer()
-    {   
+    {
         return markdown($this->get('disclaimer'));
     }
-    
+
     /**
      * Get the current domain's site key
      *
