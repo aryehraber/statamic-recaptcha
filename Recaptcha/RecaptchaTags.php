@@ -28,7 +28,9 @@ class RecaptchaTags extends Tags
         if (! $this->get('invisible', false)) {
             return '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
         } else {
-            return '
+            $hide_badge = $this->get('hide_badge', false) ? '<style>.grecaptcha-badge { visibility: collapse !important }</style>"' : '';
+            
+            return $hide_badge . '
                 <script>
                     var recaptchaCallback = function (form) {
                         return function () {
@@ -64,6 +66,16 @@ class RecaptchaTags extends Tags
         }
     }
 
+    /**
+     * The {{ recaptcha:disclaimer }} tag
+     *
+     * @return string
+     */
+    public function disclaimer()
+    {   
+        return markdown($this->get('disclaimer'));
+    }
+    
     /**
      * Get the current domain's site key
      *
