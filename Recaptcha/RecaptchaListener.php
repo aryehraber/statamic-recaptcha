@@ -41,7 +41,7 @@ class RecaptchaListener extends Listener
         if (! $data->get('success')) {
             return [
                 'submission' => $submission,
-                'errors' => [$this->getConfig('error_message') ?: 'reCAPTCHA failed.']
+                'errors' => ['recaptcha' => $this->getConfig('error_message') ?: 'reCAPTCHA failed.']
             ];
         }
 
