@@ -9,22 +9,22 @@
     }
   };
 
-  document.addEventListener("DOMContentLoaded", function () {
-    var captchas = Array.prototype.slice.call(document.querySelectorAll(".g-recaptcha[data-size=invisible]"), 0);
+  document.addEventListener('DOMContentLoaded', function () {
+    var captchas = Array.prototype.slice.call(document.querySelectorAll('.g-recaptcha[data-size=invisible]'), 0);
 
     var formId = 0;
     captchas.forEach(function (captcha) {
       ++formId;
       var form = captcha.parentNode;
-      while (form.tagName !== "FORM") {
+      while (form.tagName !== 'FORM') {
         form = form.parentNode;
       }
 
       // create custom callback
-      window["recaptchaSubmit" + formId] = recaptchaCallback(form);
-      captcha.setAttribute("data-callback", "recaptchaSubmit" + formId);
+      window['recaptchaSubmit' + formId] = recaptchaCallback(form);
+      captcha.setAttribute('data-callback', 'recaptchaSubmit' + formId);
 
-      form.addEventListener("submit", function (event) {
+      form.addEventListener('submit', function (event) {
         event.preventDefault();
         grecaptcha.reset();
         grecaptcha.execute();

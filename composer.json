@@ -1,0 +1,41 @@
+{
+    "name": "aryehraber/statamic-recaptcha",
+    "type": "statamic-addon",
+    "description": "Protect your Statamic 3 forms using Google's reCAPTCHA service",
+    "keywords": [
+        "statamic",
+        "recaptcha",
+        "forms"
+    ],
+    "homepage": "https://github.com/aryehraber/statamic-recaptcha",
+    "license": "MIT",
+    "require": {
+        "statamic/cms": "3.0.*@beta"
+    },
+    "autoload": {
+        "psr-4": {
+            "AryehRaber\\Recaptcha\\": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "Aryeh Raber",
+            "email": "aryeh.raber@gmail.com",
+            "homepage": "https://aryeh.dev",
+            "role": "Developer"
+        }
+    ],
+    "extra": {
+        "statamic": {
+            "name": "Recaptcha",
+            "description": "Protect your Statamic forms using Google's reCAPTCHA service",
+            "version": "3.0.0-beta.1"
+        },
+        "laravel": {
+            "providers": [
+                "AryehRaber\\Recaptcha\\RecaptchaServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "beta"
+}
