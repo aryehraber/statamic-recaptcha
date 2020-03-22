@@ -1,0 +1,13 @@
+{
+    "name": "aryehraber/statamic-recaptcha",
+    "homepage": "https://github.com/aryehraber/statamic-recaptcha",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aryeh Raber",
+            "email": "aryeh.raber@gmail.com",
+            "homepage": "https://aryeh.dev",
+            "role": "Developer"
+        }
+    ]
+}
