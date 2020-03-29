@@ -1,5 +1,6 @@
 {
     "name": "aryehraber/statamic-recaptcha",
+    "description": "Protect your Statamic 3 forms using Google's reCAPTCHA service",
     "homepage": "https://github.com/aryehraber/statamic-recaptcha",
     "license": "MIT",
     "authors": [
