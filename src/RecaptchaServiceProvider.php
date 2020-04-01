@@ -19,6 +19,10 @@ class RecaptchaServiceProvider extends AddonServiceProvider
         ],
     ];
 
+    protected $routes = [
+        'web' => __DIR__.'/../routes/web.php',
+    ];
+
     public function boot()
     {
         parent::boot();
@@ -34,13 +38,5 @@ class RecaptchaServiceProvider extends AddonServiceProvider
         $this->publishes([
             __DIR__.'/../resources/views' => resource_path('views/vendor/recaptcha'),
         ], 'views');
-
-        if (config('recaptcha.enable_api_routes')) {
-            $this->registerWebRoutes(function () {
-                Route::get(config('statamic.routes.action').'/recaptcha/sitekey', function () {
-                    return response()->json(['sitekey' => config('recaptcha.sitekey')]);
-                });
-            });
-        }
     }
 }
