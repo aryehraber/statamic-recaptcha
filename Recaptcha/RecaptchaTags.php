@@ -6,6 +6,13 @@ use Statamic\Extend\Tags;
 
 class RecaptchaTags extends Tags
 {
+    protected $recaptcha;
+
+    public function __construct(Recaptcha $recaptcha)
+    {
+        $this->recaptcha = $recaptcha;
+    }
+
     /**
      * The {{ recaptcha }} tag
      *
@@ -15,7 +22,7 @@ class RecaptchaTags extends Tags
     {
         $attr = $this->get('invisible', false) ? 'data-size="invisible"' : '';
 
-        return '<div class="g-recaptcha" data-sitekey="' . $this->getSiteKey() . '" ' . $attr . '></div>';
+        return '<div class="g-recaptcha" data-sitekey="' . $this->recaptcha->getSiteKey() . '" ' . $attr . '></div>';
     }
 
     /**
@@ -26,9 +33,9 @@ class RecaptchaTags extends Tags
     public function head()
     {
         if ($this->get('invisible', false)) {
-            $data = ['hide_badge' => $this->get('hide_badge', false)];
-
-            return $this->view('invisible', $data)->render();
+            return $this->view('invisible', [
+                'hide_badge' => $this->get('hide_badge', false),
+            ])->render();
         }
 
         return '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
@@ -42,15 +49,5 @@ class RecaptchaTags extends Tags
     public function disclaimer()
     {
         return markdown($this->get('disclaimer'));
-    }
-
-    /**
-     * Get the current domain's site key
-     *
-     * @return string
-     */
-    private function getSiteKey()
-    {
-        return (new Recaptcha)->config('site_key') ?: env('RECAPTCHA_SITE_KEY', '');
     }
 }

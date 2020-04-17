@@ -2,59 +2,39 @@
 
 namespace Statamic\Addons\Recaptcha;
 
-use GuzzleHttp\Client;
 use Statamic\Extend\Listener;
 use Statamic\Contracts\Forms\Submission;
 
 class RecaptchaListener extends Listener
 {
-    /**
-     * The events to be listened for, and the methods to call.
-     *
-     * @var array
-     */
     public $events = [
         'Form.submission.creating' => 'beforeCreate'
     ];
 
+    protected $recaptcha;
+
+    public function __construct(Recaptcha $recaptcha)
+    {
+        $this->recaptcha = $recaptcha;
+    }
+
     public function beforeCreate(Submission $submission)
     {
-        if (! in_array($submission->formset()->name(), $this->getConfig('forms', []))) {
+        if (! $this->shouldVerifySubmission($submission)) {
             return $submission;
         }
 
-        $client = new Client();
+        if ($this->recaptcha->verify()->invalidResponse()) {
+            $errors = ['recaptcha' => $this->getConfig('error_message')];
 
-        $params = [
-            'secret' => $this->getSecret(),
-            'response' => request('g-recaptcha-response'),
-        ];
-
-        $response = $client->post('https://www.google.com/recaptcha/api/siteverify', ['query' => $params]);
-
-        if ($response->getStatusCode() == 200) {
-            $data = collect(json_decode($response->getBody(), true));
-        } else {
-            throw new \Exception($response->getReasonPhrase());
-        }
-
-        if (! $data->get('success')) {
-            return [
-                'submission' => $submission,
-                'errors' => ['recaptcha' => $this->getConfig('error_message') ?: 'reCAPTCHA failed.']
-            ];
+            return compact('submission', 'errors');
         }
 
         return $submission;
     }
 
-    /**
-     * Get the current domain's secret
-     *
-     * @return string
-     */
-    private function getSecret()
+    protected function shouldVerifySubmission($submission)
     {
-        return (new Recaptcha)->config('secret') ?: env('RECAPTCHA_SECRET', '');
+        return in_array($submission->formset()->name(), $this->getConfig('forms', []));
     }
 }

@@ -6,6 +6,13 @@ use Statamic\Extend\Controller;
 
 class RecaptchaController extends Controller
 {
+    protected $recaptcha;
+
+    public function __construct(Recaptcha $recaptcha)
+    {
+        $this->recaptcha = $recaptcha;
+    }
+
     /**
      * Get the current domain's site key
      *
@@ -13,6 +20,6 @@ class RecaptchaController extends Controller
      */
     public function getSiteKey()
     {
-        return (new Recaptcha)->config('site_key') ?: env('RECAPTCHA_SITE_KEY', '');
+        return $this->recaptcha->getSiteKey();
     }
 }
