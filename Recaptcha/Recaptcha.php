@@ -105,7 +105,7 @@ class Recaptcha
      *
      * @return string
      */
-    private function currentDomain()
+    protected function currentDomain()
     {
         return preg_split('/http(s)?:\/\//', url())[1];
     }
