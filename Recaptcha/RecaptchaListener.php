@@ -9,8 +9,8 @@ use Statamic\Contracts\Forms\Submission;
 class RecaptchaListener extends Listener
 {
     public $events = [
-        'Form.submission.creating' => 'beforeCreate',
-        'user.registering' => 'beforeCreate',
+        'Form.submission.creating' => 'handle',
+        'user.registering' => 'handle',
     ];
 
     protected $captcha;
@@ -20,17 +20,16 @@ class RecaptchaListener extends Listener
         $this->captcha = $captcha;
     }
 
-    public function beforeCreate($data)
+    public function handle($data)
     {
         if (! $this->shouldVerify($data)) {
             return $data;
         }
 
         if ($this->captcha->verify()->invalidResponse()) {
-            $dataType = $this->getDataType($data);
             $errors = ['captcha' => $this->getConfig('error_message')];
 
-            return [$dataType => $data, 'errors' => $errors];
+            return ['errors' => $errors];
         }
 
         return $user;
@@ -47,18 +46,5 @@ class RecaptchaListener extends Listener
         }
 
         return false;
-    }
-
-    protected function getDataType($data)
-    {
-        if ($data instanceof Submission) {
-            return 'submission';
-        }
-
-        if ($data instanceof User) {
-            return 'user';
-        }
-
-        return 'data';
     }
 }
