@@ -6,11 +6,11 @@ use Statamic\Extend\Controller;
 
 class RecaptchaController extends Controller
 {
-    protected $recaptcha;
+    protected $captcha;
 
-    public function __construct(Recaptcha $recaptcha)
+    public function __construct(Captcha $captcha)
     {
-        $this->recaptcha = $recaptcha;
+        $this->captcha = $captcha;
     }
 
     /**
@@ -20,6 +20,6 @@ class RecaptchaController extends Controller
      */
     public function getSiteKey()
     {
-        return $this->recaptcha->getSiteKey();
+        return $this->captcha->getSiteKey();
     }
 }

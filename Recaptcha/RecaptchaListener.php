@@ -11,11 +11,11 @@ class RecaptchaListener extends Listener
         'Form.submission.creating' => 'beforeCreate'
     ];
 
-    protected $recaptcha;
+    protected $captcha;
 
-    public function __construct(Recaptcha $recaptcha)
+    public function __construct(Captcha $captcha)
     {
-        $this->recaptcha = $recaptcha;
+        $this->captcha = $captcha;
     }
 
     public function beforeCreate(Submission $submission)
@@ -24,8 +24,8 @@ class RecaptchaListener extends Listener
             return $submission;
         }
 
-        if ($this->recaptcha->verify()->invalidResponse()) {
-            $errors = ['recaptcha' => $this->getConfig('error_message')];
+        if ($this->captcha->verify()->invalidResponse()) {
+            $errors = ['captcha' => $this->getConfig('error_message')];
 
             return compact('submission', 'errors');
         }

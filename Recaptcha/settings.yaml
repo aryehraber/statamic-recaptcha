@@ -2,43 +2,58 @@ fields:
   form_section:
     type: section
     display: Form Settings
+  captcha_service:
+    type: select
+    options:
+      Recaptcha: reCAPTCHA
   forms:
     type: suggest
     mode: form
-    instructions: Select the forms where reCAPTCHA will be used.
+    instructions: Select the forms where Captcha will be used.
   error_message:
     type: text
     instructions: The message that will be returned if validation fails.
-  hide_badge:
-    display: Hide reCAPTCHA Badge
-    instructions: Replace badge with reCAPTCHA Disclaimer Message
-    type: toggle
-  disclaimer:
-    display: Disclaimer Message
-    instructions: The message shown when reCaptcha badge is hidden
-    type: markdown
-    show_when:
-      hide_badge: true
-  keys_section:
-    type: section
-    display: reCAPTCHA API Keys
   site_key:
     type: text
-    width: 33
+    display: API Site Key
+    width: 50
   secret:
     type: text
-    width: 33
+    display: API Secret
+    width: 50
+  extra_settings_section:
+    type: section
+    display: Extra Settings (reCAPTCHA-only)
+    show_when:
+      captcha_service: Recaptcha
   invisible:
     type: toggle
-    width: 33
-  multi_keys_section:
-    type: section
-    display: reCAPTCHA API Keys (Multiple)
+    width: 50
+    show_when:
+      captcha_service: Recaptcha
+  hide_badge:
+    display: Hide reCAPTCHA Badge
+    type: toggle
+    width: 50
+    show_when:
+      captcha_service: Recaptcha
+      invisible: true
+  disclaimer:
+    display: Disclaimer Message
+    type: markdown
+    show_when:
+      captcha_service: Recaptcha
+      hide_badge: true
   multi_keys:
     type: toggle
     display: Use Multiple Keys?
+    show_when:
+      captcha_service: Recaptcha
   site_keys:
     type: grid
+    show_when:
+      captcha_service: Recaptcha
+      multi_keys: true
     fields:
       domains:
         type: textarea
