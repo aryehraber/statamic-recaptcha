@@ -6,3 +6,4 @@ disclaimer: 'This site is protected by reCAPTCHA and the Google [Privacy Policy]
 site_key:
 secret:
 invisible: false
+user_registration: false

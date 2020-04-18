@@ -11,6 +11,9 @@ fields:
     type: suggest
     mode: form
     instructions: Select the forms where Captcha will be used.
+  user_registration:
+    type: toggle
+    instructions: Toggle to use Captcha in User Registration form.
   error_message:
     type: text
     instructions: The message that will be returned if validation fails.
