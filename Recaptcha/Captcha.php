@@ -93,7 +93,7 @@ abstract class Captcha
      */
     public function getSiteKey()
     {
-        return $this->config('site_key') ?: env('CAPTCHA_SITE_KEY', '');
+        return $this->config('site_key') ?: env('RECAPTCHA_SITE_KEY', '');
     }
 
     /**
@@ -103,7 +103,7 @@ abstract class Captcha
      */
     public function getSecret()
     {
-        return $this->config('secret') ?: env('CAPTCHA_SECRET', '');
+        return $this->config('secret') ?: env('RECAPTCHA_SECRET', '');
     }
 
     /**
