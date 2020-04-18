@@ -1,5 +1,6 @@
 form: []
 error_message: reCAPTCHA failed.
+captcha_service: Recaptcha
 hide_badge: false
 disclaimer: 'This site is protected by reCAPTCHA and the Google [Privacy Policy](https://policies.google.com/privacy) and [Terms of Service](https://policies.google.com/terms) apply.'
 site_key:

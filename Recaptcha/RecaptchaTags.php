@@ -6,48 +6,47 @@ use Statamic\Extend\Tags;
 
 class RecaptchaTags extends Tags
 {
-    protected $recaptcha;
+    protected $captcha;
 
-    public function __construct(Recaptcha $recaptcha)
+    public function __construct(Captcha $captcha)
     {
-        $this->recaptcha = $recaptcha;
+        $this->captcha = $captcha;
     }
 
     /**
-     * The {{ recaptcha }} tag
+     * The {{ captcha }} tag
      *
      * @return string
      */
     public function index()
     {
-        $attr = $this->get('invisible', false) ? 'data-size="invisible"' : '';
-
-        return '<div class="g-recaptcha" data-sitekey="' . $this->recaptcha->getSiteKey() . '" ' . $attr . '></div>';
+        return $this->captcha->renderIndexTag($this);
     }
 
     /**
-     * The {{ recaptcha:head }} tag
+     * The {{ captcha:head }} tag
      *
      * @return string
      */
     public function head()
     {
-        if ($this->get('invisible', false)) {
-            return $this->view('invisible', [
-                'hide_badge' => $this->get('hide_badge', false),
-            ])->render();
-        }
-
-        return '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
+        return $this->captcha->renderHeadTag($this);
     }
 
     /**
-     * The {{ recaptcha:disclaimer }} tag
+     * The {{ captcha:disclaimer }} tag
      *
      * @return string
      */
     public function disclaimer()
     {
         return markdown($this->get('disclaimer'));
+    }
+
+    public function buildAttributes($attributes)
+    {
+        return collect($attributes)->filter()->map(function ($value, $key) {
+            return sprintf('%s="%s"', $key, $value);
+        })->implode(' ');
     }
 }

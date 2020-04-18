@@ -2,111 +2,34 @@
 
 namespace Statamic\Addons\Recaptcha;
 
-use GuzzleHttp\Client;
-use Statamic\Extend\Extensible;
-
-class Recaptcha
+class Recaptcha extends Captcha
 {
-    use Extensible;
-
-    protected $data;
-
-    protected $client;
-
-    public function __construct()
+    public function getResponseToken()
     {
-        $this->client = new Client;
+        return request('g-recaptcha-response');
     }
 
-    public function config($field)
+    public function getVerificationUrl()
     {
-        if (! $this->getConfigBool('multi_keys')) {
-            return $this->getConfig($field);
+        return 'https://www.google.com/recaptcha/api/siteverify';
+    }
+
+    public function renderIndexTag($tag)
+    {
+        $attributes = $tag->buildAttributes([
+            'data-sitekey' => $this->getSiteKey(),
+            'data-size' => $tag->get('invisible') ? 'invisible' : '',
+        ]);
+
+        return "<div class=\"g-recaptcha\" {$attributes}></div>";
+    }
+
+    public function renderHeadTag($tag)
+    {
+         if ($tag->getBool('invisible')) {
+            return $tag->view('invisible', ['hide_badge' => $tag->get('hide_badge')])->render();
         }
 
-        $config = collect($this->getConfig('site_keys'))->first(function ($key, $config) {
-            $domains = explode("\n", array_get($config, 'domains', ''));
-
-            return in_array($this->currentDomain(), $domains);
-        });
-
-        return array_get($config, $field);
-    }
-
-    public function verify()
-    {
-        $query = [
-            'secret' => $this->getSecret(),
-            'response' => request('g-recaptcha-response'),
-            'remoteip' => request()->ip(),
-        ];
-
-        $response = $this->client->post('https://www.google.com/recaptcha/api/siteverify', compact('query'));
-
-        if ($response->getStatusCode() == 200) {
-            $this->data = collect(json_decode($response->getBody(), true));
-        } else {
-            throw new \Exception($response->getReasonPhrase());
-        }
-
-        return $this;
-    }
-
-    /**
-     * Check whether the response was valid
-     *
-     * @return bool
-     */
-    public function validResponse()
-    {
-        if (is_null($this->data)) {
-            return false;
-        }
-
-        if (! $this->data->get('success')) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Check whether the response was invalid
-     *
-     * @return bool
-     */
-    public function invalidResponse()
-    {
-        return ! $this->validResponse();
-    }
-
-    /**
-     * Get the configured reCaptcha Site Key
-     *
-     * @return string
-     */
-    public function getSiteKey()
-    {
-        return $this->config('site_key') ?: env('RECAPTCHA_SITE_KEY', '');
-    }
-
-    /**
-     * Get the configured reCaptcha Secret
-     *
-     * @return string
-     */
-    public function getSecret()
-    {
-        return $this->config('secret') ?: env('RECAPTCHA_SECRET', '');
-    }
-
-    /**
-     * Get the current domain, excluding 'http(s)://'
-     *
-     * @return string
-     */
-    protected function currentDomain()
-    {
-        return preg_split('/http(s)?:\/\//', url())[1];
+        return '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
     }
 }
