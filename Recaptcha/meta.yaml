@@ -1,6 +1,6 @@
 name: Recaptcha
 version: 2.6
-description: Protect your Statamic forms using Google's reCAPTCHA service.
+description: Protect your Statamic forms using a Captcha service (Google reCAPTCHA & hCaptcha).
 url: https://github.com/aryehraber/statamic-recaptcha
 developer: Aryeh Raber
 developer_url: http://aryehdesigns.com
