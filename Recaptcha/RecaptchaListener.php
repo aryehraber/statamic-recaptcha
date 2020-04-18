@@ -32,13 +32,13 @@ class RecaptchaListener extends Listener
             return ['errors' => $errors];
         }
 
-        return $user;
+        return $data;
     }
 
     protected function shouldVerify($data)
     {
         if ($data instanceof Submission) {
-            return in_array($submission->formset()->name(), $this->getConfig('forms', []));
+            return in_array($data->formset()->name(), $this->getConfig('forms', []));
         }
 
         if ($data instanceof User) {
