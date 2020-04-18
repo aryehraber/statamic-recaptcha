@@ -2,13 +2,15 @@
 
 namespace Statamic\Addons\Recaptcha;
 
+use Statamic\Data\Users\User;
 use Statamic\Extend\Listener;
 use Statamic\Contracts\Forms\Submission;
 
 class RecaptchaListener extends Listener
 {
     public $events = [
-        'Form.submission.creating' => 'beforeCreate'
+        'Form.submission.creating' => 'beforeCreate',
+        'user.registering' => 'beforeCreate',
     ];
 
     protected $captcha;
@@ -18,23 +20,45 @@ class RecaptchaListener extends Listener
         $this->captcha = $captcha;
     }
 
-    public function beforeCreate(Submission $submission)
+    public function beforeCreate($data)
     {
-        if (! $this->shouldVerifySubmission($submission)) {
-            return $submission;
+        if (! $this->shouldVerify($data)) {
+            return $data;
         }
 
         if ($this->captcha->verify()->invalidResponse()) {
+            $dataType = $this->getDataType($data);
             $errors = ['captcha' => $this->getConfig('error_message')];
 
-            return compact('submission', 'errors');
+            return [$dataType => $data, 'errors' => $errors];
         }
 
-        return $submission;
+        return $user;
     }
 
-    protected function shouldVerifySubmission($submission)
+    protected function shouldVerify($data)
     {
-        return in_array($submission->formset()->name(), $this->getConfig('forms', []));
+        if ($data instanceof Submission) {
+            return in_array($submission->formset()->name(), $this->getConfig('forms', []));
+        }
+
+        if ($data instanceof User) {
+            return $this->getConfigBool('user_registration');
+        }
+
+        return false;
+    }
+
+    protected function getDataType($data)
+    {
+        if ($data instanceof Submission) {
+            return 'submission';
+        }
+
+        if ($data instanceof User) {
+            return 'user';
+        }
+
+        return 'data';
     }
 }
