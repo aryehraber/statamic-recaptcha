@@ -6,6 +6,7 @@ fields:
     type: select
     options:
       Recaptcha: reCAPTCHA
+      Hcaptcha: hCaptcha
   forms:
     type: suggest
     mode: form
