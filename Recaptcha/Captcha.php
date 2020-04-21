@@ -22,6 +22,8 @@ abstract class Captcha
 
     abstract public function getVerificationUrl();
 
+    abstract public function getDefaultDisclaimer();
+
     abstract public function renderIndexTag($tag);
 
     abstract public function renderHeadTag($tag);

@@ -2,6 +2,7 @@
   <style>.grecaptcha-badge { visibility: collapse !important }</style>
 @endif
 
+@if ($invisible)
 <script>
   var recaptchaCallback = function (form) {
     return function () {
@@ -12,17 +13,16 @@
   document.addEventListener("DOMContentLoaded", function () {
     var captchas = Array.prototype.slice.call(document.querySelectorAll(".g-recaptcha[data-size=invisible]"), 0);
 
-    var formId = 0;
-    captchas.forEach(function (captcha) {
-      ++formId;
+    captchas.forEach(function (captcha, index) {
       var form = captcha.parentNode;
+
       while (form.tagName !== "FORM") {
         form = form.parentNode;
       }
 
       // create custom callback
-      window["recaptchaSubmit" + formId] = recaptchaCallback(form);
-      captcha.setAttribute("data-callback", "recaptchaSubmit" + formId);
+      window["recaptchaSubmit" + index] = recaptchaCallback(form);
+      captcha.setAttribute("data-callback", "recaptchaSubmit" + index);
 
       form.addEventListener("submit", function (event) {
         event.preventDefault();
@@ -32,4 +32,6 @@
     });
   });
 </script>
+@endif
+
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>

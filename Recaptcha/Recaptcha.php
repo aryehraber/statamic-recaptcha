@@ -14,11 +14,16 @@ class Recaptcha extends Captcha
         return 'https://www.google.com/recaptcha/api/siteverify';
     }
 
+    public function getDefaultDisclaimer()
+    {
+        return 'This site is protected by reCAPTCHA and the Google [Privacy Policy](https://policies.google.com/privacy) and [Terms of Service](https://policies.google.com/terms) apply.';
+    }
+
     public function renderIndexTag($tag)
     {
         $attributes = $tag->buildAttributes([
             'data-sitekey' => $this->getSiteKey(),
-            'data-size' => $tag->get('invisible') ? 'invisible' : '',
+            'data-size' => $tag->getBool('invisible') ? 'invisible' : '',
         ]);
 
         return "<div class=\"g-recaptcha\" {$attributes}></div>";
@@ -26,10 +31,9 @@ class Recaptcha extends Captcha
 
     public function renderHeadTag($tag)
     {
-         if ($tag->getBool('invisible')) {
-            return $tag->view('invisible', ['hide_badge' => $tag->get('hide_badge')])->render();
-        }
-
-        return '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
+        return $tag->view('recaptcha.head', [
+            'invisible' => $tag->getBool('invisible'),
+            'hide_badge' => $tag->getBool('hide_badge'),
+        ])->render();
     }
 }

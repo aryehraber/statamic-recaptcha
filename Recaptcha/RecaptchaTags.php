@@ -40,9 +40,18 @@ class RecaptchaTags extends Tags
      */
     public function disclaimer()
     {
-        return markdown($this->get('disclaimer'));
+        if (! $disclaimer = $this->get('disclaimer')) {
+            $disclaimer = $this->captcha->getDefaultDisclaimer();
+        }
+
+        return markdown($disclaimer);
     }
 
+    /**
+     * Helper to build HTML element attributes string
+     *
+     * @return string
+     */
     public function buildAttributes($attributes)
     {
         return collect($attributes)->filter()->map(function ($value, $key) {
