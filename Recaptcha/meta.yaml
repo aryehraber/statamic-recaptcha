@@ -1,5 +1,5 @@
 name: Recaptcha
-version: 2.8.0
+version: 2.8.1
 description: Protect your Statamic forms using a Captcha service (Google reCAPTCHA & hCaptcha).
 url: https://github.com/aryehraber/statamic-recaptcha
 developer: Aryeh Raber

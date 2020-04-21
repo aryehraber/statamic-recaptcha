@@ -14,10 +14,16 @@ class Hcaptcha extends Captcha
         return 'https://hcaptcha.com/siteverify';
     }
 
+    public function getDefaultDisclaimer()
+    {
+        return 'This site is protected by hCaptcha and its <a href="https://hcaptcha.com/privacy">Privacy Policy</a> and <a href="https://hcaptcha.com/terms">Terms of Service</a> apply.';
+    }
+
     public function renderIndexTag($tag)
     {
         $attributes = $tag->buildAttributes([
             'data-sitekey' => $this->getSiteKey(),
+            'data-size' => $tag->getBool('invisible') ? 'invisible' : '',
         ]);
 
         return "<div class=\"h-captcha\" {$attributes}></div>";
@@ -25,6 +31,8 @@ class Hcaptcha extends Captcha
 
     public function renderHeadTag($tag)
     {
-        return '<script src="https://hcaptcha.com/1/api.js" async defer></script>';
+        return $tag->view('hcaptcha.head', [
+            'invisible' => $tag->getBool('invisible'),
+        ])->render();
     }
 }

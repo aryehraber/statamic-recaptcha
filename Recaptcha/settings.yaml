@@ -27,14 +27,11 @@ fields:
     width: 50
   extra_settings_section:
     type: section
-    display: Extra Settings (reCAPTCHA-only)
+    display: Extra Settings
     show_when:
-      captcha_service: Recaptcha
   invisible:
     type: toggle
     width: 50
-    show_when:
-      captcha_service: Recaptcha
   hide_badge:
     display: Hide reCAPTCHA Badge
     type: toggle
@@ -45,19 +42,12 @@ fields:
   disclaimer:
     display: Disclaimer Message
     type: markdown
-    show_when:
-      captcha_service: Recaptcha
-      hide_badge: true
+    instructions: Only required if using hidden Invisible Captcha. A default message will be used if this field is left blank.
   multi_keys:
     type: toggle
     display: Use Multiple Keys?
-    show_when:
-      captcha_service: Recaptcha
   site_keys:
     type: grid
-    show_when:
-      captcha_service: Recaptcha
-      multi_keys: true
     fields:
       domains:
         type: textarea
