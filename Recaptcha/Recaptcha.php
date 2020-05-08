@@ -23,6 +23,7 @@ class Recaptcha extends Captcha
     {
         $attributes = $tag->buildAttributes([
             'data-sitekey' => $this->getSiteKey(),
+            'data-theme' => $tag->get('theme'),
             'data-size' => $tag->getBool('invisible') ? 'invisible' : '',
         ]);
 
