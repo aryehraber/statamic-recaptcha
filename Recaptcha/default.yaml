@@ -6,4 +6,5 @@ disclaimer:
 site_key:
 secret:
 invisible: false
+language_code:
 user_registration: false

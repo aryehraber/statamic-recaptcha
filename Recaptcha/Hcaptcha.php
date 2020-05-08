@@ -33,6 +33,10 @@ class Hcaptcha extends Captcha
     {
         $url = 'https://hcaptcha.com/1/api.js';
 
+        if ($lang = $tag->get('language_code')) {
+            $url .= "?hl={$lang}";
+        }
+
         return $tag->view('hcaptcha.head', [
             'invisible' => $tag->getBool('invisible'),
             'url' => $url,
