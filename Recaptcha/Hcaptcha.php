@@ -31,8 +31,11 @@ class Hcaptcha extends Captcha
 
     public function renderHeadTag($tag)
     {
+        $url = 'https://hcaptcha.com/1/api.js';
+
         return $tag->view('hcaptcha.head', [
             'invisible' => $tag->getBool('invisible'),
+            'url' => $url,
         ])->render();
     }
 }
