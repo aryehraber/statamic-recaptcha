@@ -31,9 +31,16 @@ class Recaptcha extends Captcha
 
     public function renderHeadTag($tag)
     {
+        $url = 'https://www.google.com/recaptcha/api.js';
+
+        if ($lang = $tag->get('language_code')) {
+            $url .= "?hl={$lang}";
+        }
+
         return $tag->view('recaptcha.head', [
             'invisible' => $tag->getBool('invisible'),
             'hide_badge' => $tag->getBool('hide_badge'),
+            'url' => $url,
         ])->render();
     }
 }

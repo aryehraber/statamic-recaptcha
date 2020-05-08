@@ -30,4 +30,4 @@
 </script>
 @endif
 
-<script src="https://hcaptcha.com/1/api.js" async defer></script>
+<script src="{{ $url }}" async defer></script>

@@ -34,4 +34,4 @@
 </script>
 @endif
 
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="{{ $url }}" async defer></script>
