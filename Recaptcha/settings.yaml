@@ -38,6 +38,12 @@ fields:
     show_when:
       captcha_service: Recaptcha
       invisible: true
+  theme:
+    type: select
+    display: Theme
+    options:
+      light: Light
+      dark: Dark
   language_code:
     type: select
     display: Language
