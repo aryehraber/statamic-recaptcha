@@ -3,6 +3,7 @@
 namespace AryehRaber\Recaptcha;
 
 use Illuminate\Support\Facades\Route;
+use Statamic\Events\Data\FormSubmitted;
 use AryehRaber\Recaptcha\Tags\Recaptcha;
 use Statamic\Providers\AddonServiceProvider;
 use AryehRaber\Recaptcha\Listeners\ValidateFormSubmission;
@@ -14,7 +15,7 @@ class RecaptchaServiceProvider extends AddonServiceProvider
     ];
 
     protected $listen = [
-        'Form.submission.creating' => [
+        FormSubmitted::class => [
             ValidateFormSubmission::class,
         ],
     ];

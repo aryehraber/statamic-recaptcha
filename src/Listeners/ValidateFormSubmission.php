@@ -4,11 +4,15 @@ namespace AryehRaber\Recaptcha\Listeners;
 
 use GuzzleHttp\Client;
 use Statamic\Forms\Submission;
+use Statamic\Events\Data\FormSubmitted;
+use Illuminate\Validation\ValidationException;
 
 class ValidateFormSubmission
 {
-    public function handle(Submission $submission)
+    public function handle(FormSubmitted $event)
     {
+        $submission = $event->item;
+
         if (! in_array($submission->form()->handle(), config('recaptcha.forms', []))) {
             return $submission;
         }
@@ -27,10 +31,9 @@ class ValidateFormSubmission
         }
 
         if (! $data->get('success')) {
-            return [
-                'submission' => $submission,
-                'errors' => ['recaptcha' => config('recaptcha.error_message', 'reCAPTCHA failed.')],
-            ];
+            throw ValidationException::withMessages([
+                'recaptcha' => config('recaptcha.error_message', 'reCAPTCHA failed.')
+            ]);
         }
 
         return $submission;
