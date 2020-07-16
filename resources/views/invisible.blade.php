@@ -3,31 +3,23 @@
 @endif
 
 <script>
-  var recaptchaCallback = function (form) {
-    return function () {
-      form.submit();
-    }
-  };
-
   document.addEventListener('DOMContentLoaded', function () {
     var captchas = Array.prototype.slice.call(document.querySelectorAll('.g-recaptcha[data-size=invisible]'), 0);
 
-    var formId = 0;
-    captchas.forEach(function (captcha) {
-      ++formId;
+    captchas.forEach(function (captcha, index) {
       var form = captcha.parentNode;
       while (form.tagName !== 'FORM') {
         form = form.parentNode;
       }
 
       // create custom callback
-      window['recaptchaSubmit' + formId] = recaptchaCallback(form);
-      captcha.setAttribute('data-callback', 'recaptchaSubmit' + formId);
+      window['recaptchaSubmit' + index] = function () { form.submit(); };
+      captcha.setAttribute('data-callback', 'recaptchaSubmit' + index);
 
       form.addEventListener('submit', function (event) {
         event.preventDefault();
-        grecaptcha.reset();
-        grecaptcha.execute();
+        grecaptcha.reset(index);
+        grecaptcha.execute(index);
       });
     });
   });
