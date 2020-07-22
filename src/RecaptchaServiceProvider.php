@@ -2,8 +2,8 @@
 
 namespace AryehRaber\Recaptcha;
 
+use Statamic\Events\FormSubmitted;
 use Illuminate\Support\Facades\Route;
-use Statamic\Events\Data\FormSubmitted;
 use AryehRaber\Recaptcha\Tags\Recaptcha;
 use Statamic\Providers\AddonServiceProvider;
 use AryehRaber\Recaptcha\Listeners\ValidateFormSubmission;
