@@ -4,14 +4,14 @@ namespace AryehRaber\Recaptcha\Listeners;
 
 use GuzzleHttp\Client;
 use Statamic\Forms\Submission;
-use Statamic\Events\Data\FormSubmitted;
+use Statamic\Events\FormSubmitted;
 use Illuminate\Validation\ValidationException;
 
 class ValidateFormSubmission
 {
     public function handle(FormSubmitted $event)
     {
-        $submission = $event->item;
+        $submission = $event->form;
 
         if (! in_array($submission->form()->handle(), config('recaptcha.forms', []))) {
             return $submission;
