@@ -1,4 +1,4 @@
-# Recaptcha
+# Recaptcha (Statamic V2)
 
 **Protect your Statamic forms using reCAPTCHA or hCaptcha.**
 
@@ -7,6 +7,8 @@ This addon allows you to protect your Statamic forms from spam and abuse using [
 After the initial setup, all you need to do is add the `{{ recaptcha }}` tag inside your forms, easy peasy!
 
 <img src="https://www.google.com/recaptcha/intro/images/hero-recaptcha-demo.gif" alt="reCAPTCHA" width="350">
+
+**For Statamic V3, please use the new Captcha addon: https://github.com/aryehraber/statamic-captcha**
 
 ## Setup
 
