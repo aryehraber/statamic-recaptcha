@@ -2,6 +2,7 @@
     "name": "aryehraber/statamic-recaptcha",
     "type": "statamic-addon",
     "description": "Protect your Statamic 3 forms using Google's reCAPTCHA service",
+    "abandoned": "aryehraber/statamic-captcha",
     "keywords": [
         "statamic",
         "recaptcha",
