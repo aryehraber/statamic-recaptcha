@@ -2,6 +2,7 @@
   <style>.grecaptcha-badge { visibility: collapse !important }</style>
 @endif
 
+@if ($invisible)
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     var captchas = Array.prototype.slice.call(document.querySelectorAll('.g-recaptcha[data-size=invisible]'), 0);
@@ -24,4 +25,6 @@
     });
   });
 </script>
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+@endif
+
+<script src="{{ $url }}" async defer></script>
